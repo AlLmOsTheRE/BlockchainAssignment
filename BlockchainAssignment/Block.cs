@@ -17,8 +17,15 @@ namespace BlockchainAssignment
 
         List<Transaction> transactions = new List<Transaction>();
 
+        // Proof of work
         public long nonce = 0;
         public int difficulty = 4;
+
+        // Rewards and fees
+        public double reward = 1.0; // fixed logic
+        public double fees = 0.0;
+
+        public string minerAddress = string.Empty;
 
         // Genesis Block
         public Block()
@@ -34,17 +41,30 @@ namespace BlockchainAssignment
             this.timestamp = DateTime.Now;
             this.index = index + 1;
             this.prevHash = prevHash;
+            this.reward = 0;
             this.hash = Mine();
         }
 
-        public Block(Block lastBlock, List<Transaction> transactions)
+        public Block(Block lastBlock, List<Transaction> transactions, string address = "")
         {
             this.timestamp = DateTime.Now;
             this.prevHash = lastBlock.hash;
             this.index = lastBlock.index + 1;
+            this.minerAddress = address;
+
+            transactions.Add(CreateRewardTransaction(transactions));
             this.transactions = transactions;
 
             this.hash = Mine();
+        }
+
+        public Transaction CreateRewardTransaction(List<Transaction> transactions)
+        {
+            this.fees = transactions.Aggregate(0.0, (acc, t) => acc + t.fees);
+
+            // Create the reward transaction, it being the sum of the fees and the reward passed
+            // from the coin base ("Mine rewards") to the miner
+            return new Transaction("Mine rewards", minerAddress, this.reward + this.fees, 0, "");
         }
 
         public string CreateHash()
@@ -84,15 +104,21 @@ namespace BlockchainAssignment
 
         public override string ToString()
         {
-            string transactionsString = transactions.Aggregate(string.Empty, (a, b) => a.ToString() + "\n" + b.ToString());
+            string transactionsString = transactions.Count == 0 ? " N/A\n"
+                : transactions.Aggregate("\n", (acc, t) => acc + t.ToString());
 
-            return "Index: " + index.ToString()
-                    + "\nTimestamp: " + timestamp.ToString()
-                    + "\nHash: " + hash.ToString()
-                    + "\nPrevious Hash: " + prevHash.ToString()
-                    + "\nNonce" + nonce.ToString()
-                    + "\nTransactions:\n " + transactionsString
-                    + "\n";
+            return "Index: " + index.ToString() +
+                "\nTimestamp: " + timestamp.ToString() +
+                "\nHash: " + hash.ToString() +
+                "\nPrevious Hash: " + prevHash.ToString() +
+                "\nNonce: " + nonce.ToString() +
+                "\nDifficulty: " + difficulty.ToString() +
+                "\nReward: " + reward.ToString() +
+                "\nFees: " + fees.ToString() +
+                "\nMiner's address: " + minerAddress.ToString() +
+                "\nTransactions:" + transactionsString +
+                "------------------------------------------------------------------------------------------------" +
+                "------------------------------------------------------------------------------------------------\n";
         }
     }
 

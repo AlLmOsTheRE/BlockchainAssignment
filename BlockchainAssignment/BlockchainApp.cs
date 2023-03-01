@@ -49,13 +49,13 @@ namespace BlockchainAssignment
         private void ValidateKeys_Click(object sender, EventArgs e)
         {
             string isValidString = Wallet.Wallet.ValidatePrivateKey(PrivateKey.Text, PublicKey.Text) ? "valid" : "invalid";
-            
+
             MainInterface.Text = "Keys are " + isValidString;
         }
 
         private void CreateTransaction_Click(object sender, EventArgs e)
         {
-            Transaction transaction = new Transaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fee.Text), PrivateKey.Text);
+            Transaction transaction = new Transaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fees.Text), PrivateKey.Text);
             blockchain.transactions.Add(transaction);
             MainInterface.Text = transaction.ToString();
         }
@@ -63,9 +63,14 @@ namespace BlockchainAssignment
         private void CreateBlock_Click(object sender, EventArgs e)
         {
             List<Transaction> transactions = blockchain.getPendingTransactions();
-            Block newBlock = new Block(blockchain.getLastBlock(), transactions);
+            Block newBlock = new Block(blockchain.getLastBlock(), transactions, PublicKey.Text);
             blockchain.blocks.Add(newBlock);
 
+            MainInterface.Text = blockchain.ToString();
+        }
+
+        private void ReadAllBlocks_Click(object sender, EventArgs e)
+        {
             MainInterface.Text = blockchain.ToString();
         }
     }

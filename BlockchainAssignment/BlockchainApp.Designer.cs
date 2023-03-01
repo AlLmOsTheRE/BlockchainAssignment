@@ -42,9 +42,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.Amount = new System.Windows.Forms.TextBox();
-            this.Fee = new System.Windows.Forms.TextBox();
+            this.Fees = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.ReceiverKey = new System.Windows.Forms.TextBox();
+            this.ReadAllBlocks = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // MainInterface
@@ -53,16 +54,16 @@
             this.MainInterface.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.MainInterface.Location = new System.Drawing.Point(12, 12);
             this.MainInterface.Name = "MainInterface";
-            this.MainInterface.Size = new System.Drawing.Size(657, 314);
+            this.MainInterface.Size = new System.Drawing.Size(673, 314);
             this.MainInterface.TabIndex = 0;
             this.MainInterface.Text = "";
             this.MainInterface.TextChanged += new System.EventHandler(this.MainInterface_TextChanged);
             // 
             // PrintBlock
             // 
-            this.PrintBlock.Location = new System.Drawing.Point(12, 332);
+            this.PrintBlock.Location = new System.Drawing.Point(12, 331);
             this.PrintBlock.Name = "PrintBlock";
-            this.PrintBlock.Size = new System.Drawing.Size(96, 20);
+            this.PrintBlock.Size = new System.Drawing.Size(96, 21);
             this.PrintBlock.TabIndex = 1;
             this.PrintBlock.Text = "Print Block";
             this.PrintBlock.UseVisualStyleBackColor = true;
@@ -77,7 +78,7 @@
             // 
             // CreateWallet
             // 
-            this.CreateWallet.Location = new System.Drawing.Point(571, 331);
+            this.CreateWallet.Location = new System.Drawing.Point(587, 331);
             this.CreateWallet.Name = "CreateWallet";
             this.CreateWallet.Size = new System.Drawing.Size(98, 47);
             this.CreateWallet.TabIndex = 3;
@@ -87,14 +88,14 @@
             // 
             // PublicKey
             // 
-            this.PublicKey.Location = new System.Drawing.Point(465, 332);
+            this.PublicKey.Location = new System.Drawing.Point(481, 332);
             this.PublicKey.Name = "PublicKey";
             this.PublicKey.Size = new System.Drawing.Size(100, 20);
             this.PublicKey.TabIndex = 4;
             // 
             // PrivateKey
             // 
-            this.PrivateKey.Location = new System.Drawing.Point(465, 358);
+            this.PrivateKey.Location = new System.Drawing.Point(481, 358);
             this.PrivateKey.Name = "PrivateKey";
             this.PrivateKey.Size = new System.Drawing.Size(100, 20);
             this.PrivateKey.TabIndex = 5;
@@ -102,7 +103,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(402, 335);
+            this.label1.Location = new System.Drawing.Point(418, 335);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 6;
@@ -111,7 +112,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(398, 361);
+            this.label2.Location = new System.Drawing.Point(414, 361);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 7;
@@ -119,7 +120,7 @@
             // 
             // ValidateKeys
             // 
-            this.ValidateKeys.Location = new System.Drawing.Point(571, 384);
+            this.ValidateKeys.Location = new System.Drawing.Point(587, 384);
             this.ValidateKeys.Name = "ValidateKeys";
             this.ValidateKeys.Size = new System.Drawing.Size(98, 21);
             this.ValidateKeys.TabIndex = 8;
@@ -161,9 +162,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(116, 452);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(25, 13);
+            this.label4.Size = new System.Drawing.Size(30, 13);
             this.label4.TabIndex = 12;
-            this.label4.Text = "Fee";
+            this.label4.Text = "Fees";
             // 
             // Amount
             // 
@@ -172,12 +173,12 @@
             this.Amount.Size = new System.Drawing.Size(48, 20);
             this.Amount.TabIndex = 13;
             // 
-            // Fee
+            // Fees
             // 
-            this.Fee.Location = new System.Drawing.Point(166, 449);
-            this.Fee.Name = "Fee";
-            this.Fee.Size = new System.Drawing.Size(48, 20);
-            this.Fee.TabIndex = 14;
+            this.Fees.Location = new System.Drawing.Point(166, 449);
+            this.Fees.Name = "Fees";
+            this.Fees.Size = new System.Drawing.Size(48, 20);
+            this.Fees.TabIndex = 14;
             // 
             // label5
             // 
@@ -195,15 +196,26 @@
             this.ReceiverKey.Size = new System.Drawing.Size(255, 20);
             this.ReceiverKey.TabIndex = 16;
             // 
+            // ReadAllBlocks
+            // 
+            this.ReadAllBlocks.Location = new System.Drawing.Point(158, 331);
+            this.ReadAllBlocks.Name = "ReadAllBlocks";
+            this.ReadAllBlocks.Size = new System.Drawing.Size(96, 21);
+            this.ReadAllBlocks.TabIndex = 17;
+            this.ReadAllBlocks.Text = "Read All";
+            this.ReadAllBlocks.UseVisualStyleBackColor = true;
+            this.ReadAllBlocks.Click += new System.EventHandler(this.ReadAllBlocks_Click);
+            // 
             // BlockchainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(681, 481);
+            this.ClientSize = new System.Drawing.Size(697, 481);
+            this.Controls.Add(this.ReadAllBlocks);
             this.Controls.Add(this.ReceiverKey);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.Fee);
+            this.Controls.Add(this.Fees);
             this.Controls.Add(this.Amount);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -243,9 +255,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox Amount;
-        private System.Windows.Forms.TextBox Fee;
+        private System.Windows.Forms.TextBox Fees;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox ReceiverKey;
+        private System.Windows.Forms.Button ReadAllBlocks;
     }
 }
 

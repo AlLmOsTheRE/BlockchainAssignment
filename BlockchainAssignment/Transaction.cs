@@ -16,14 +16,14 @@ namespace BlockchainAssignment
         string recipientAddress;
         DateTime timestamp;
         double amount;
-        double fee;
+        public double fees;
 
         public Transaction(string from, string to, double amount, double fee, string privateKey)
         {
             this.senderAddress = from;
             this.recipientAddress = to;
             this.amount = amount;
-            this.fee = fee;
+            this.fees = fee;
             this.timestamp = DateTime.Now;
             this.hash = CreateHash();
             this.signature = Wallet.Wallet.CreateSignature(from, privateKey, this.hash);
@@ -36,7 +36,7 @@ namespace BlockchainAssignment
             SHA256 hasher = SHA256.Create();
 
             // Hash all properties
-            string input = timestamp.ToString() + senderAddress + recipientAddress + amount.ToString() + fee.ToString();
+            string input = timestamp.ToString() + senderAddress + recipientAddress + amount.ToString() + fees.ToString();
             byte[] hashByte = hasher.ComputeHash(Encoding.UTF8.GetBytes(input));
 
             // Convert Hash from Byte array to String
@@ -50,13 +50,13 @@ namespace BlockchainAssignment
 
         public override string ToString()
         {
-            return "Transaction Hash: " + hash
-                + "\nDigital signature: " + signature
-                + "\nTimestamp: " + timestamp.ToString()
-                + "\nTransferred: " + amount.ToString() + " ඞ"
-                + "\nFees: " + fee.ToString()
-                + "\nSender address: " + senderAddress
-                + "\nRecipient address: " + recipientAddress
+            return "---\n  Transaction Hash: " + hash
+                + "\n  Digital signature: " + signature
+                + "\n  Timestamp: " + timestamp.ToString()
+                + "\n  Transferred: " + amount.ToString() + " ඞ"
+                + "\n  Fees: " + fees.ToString()
+                + "\n  Sender address: " + senderAddress
+                + "\n  Recipient address: " + recipientAddress
                 + "\n";
         }
     }
