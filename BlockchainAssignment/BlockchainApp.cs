@@ -13,6 +13,7 @@ namespace BlockchainAssignment
 {
     public partial class BlockchainApp : Form
     {
+        static public char assignmentCoin = 'ඞ';
         Blockchain blockchain;
 
         public BlockchainApp()
@@ -42,6 +43,7 @@ namespace BlockchainAssignment
         {
             string privKey;
             Wallet.Wallet newWallet = new Wallet.Wallet(out privKey);
+
             PublicKey.Text = newWallet.publicID;
             PrivateKey.Text = privKey;
         }
@@ -55,8 +57,8 @@ namespace BlockchainAssignment
 
         private void CreateTransaction_Click(object sender, EventArgs e)
         {
-            Transaction transaction = new Transaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fees.Text), PrivateKey.Text);
-            blockchain.transactions.Add(transaction);
+            Transaction transaction = blockchain.createTransaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fees.Text), PrivateKey.Text);
+
             MainInterface.Text = transaction.ToString();
         }
 
@@ -66,12 +68,47 @@ namespace BlockchainAssignment
             Block newBlock = new Block(blockchain.getLastBlock(), transactions, PublicKey.Text);
             blockchain.blocks.Add(newBlock);
 
-            MainInterface.Text = blockchain.ToString();
+            MainInterface.Text = blockchain.getLastBlock().ToString();
         }
 
         private void ReadAllBlocks_Click(object sender, EventArgs e)
         {
             MainInterface.Text = blockchain.ToString();
+        }
+
+        private void PrintPending_Click(object sender, EventArgs e)
+        {
+            string pendingString = blockchain.transactions.Count == 0 ? "No pending transactions!"
+                : blockchain.transactions.Aggregate("Pending transactions:\n", (acc, t) => acc + t.ToString());
+
+            MainInterface.Text = pendingString;
+        }
+
+        private void ValidateChain_Click(object sender, EventArgs e)
+        {
+            // Contiguity checks
+            bool isValid = true;
+
+            if (blockchain.blocks.Count == 1)
+                isValid = !blockchain.validateMerkleRoot(blockchain.blocks[0]);
+
+            else
+                for (int i = 1; i < blockchain.blocks.Count - 1; i++)
+                    // Compare neighbouring hashes for all the blocks in the blockchain and
+                    // validate transactions via merkle root
+                    if (blockchain.blocks[i].prevHash != blockchain.blocks[i - 1].hash
+                        || !blockchain.validateMerkleRoot(blockchain.blocks[i]))
+                    {
+                        isValid = false;
+                        break;
+                    }
+
+            MainInterface.Text = "Blockchain is " + (isValid ? "valid" : "invalid");
+        }
+
+        private void CheckBalance_Click(object sender, EventArgs e)
+        {
+            MainInterface.Text = "Balance: " + blockchain.getBalance(PublicKey.Text).ToString() + " " + assignmentCoin;
         }
     }
 }

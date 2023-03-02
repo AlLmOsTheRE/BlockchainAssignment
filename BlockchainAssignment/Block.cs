@@ -12,10 +12,11 @@ namespace BlockchainAssignment
     {
         int index;
         DateTime timestamp;
-        string hash;
-        string prevHash;
+        public string hash;
+        public string prevHash;
 
-        List<Transaction> transactions = new List<Transaction>();
+        public List<Transaction> transactions = new List<Transaction>();
+        public string merkleRoot;
 
         // Proof of work
         public long nonce = 0;
@@ -55,6 +56,8 @@ namespace BlockchainAssignment
             transactions.Add(CreateRewardTransaction(transactions));
             this.transactions = transactions;
 
+            merkleRoot = getMerkleRoot(transactions);
+
             this.hash = Mine();
         }
 
@@ -64,23 +67,19 @@ namespace BlockchainAssignment
 
             // Create the reward transaction, it being the sum of the fees and the reward passed
             // from the coin base ("Mine rewards") to the miner
-            return new Transaction("Mine rewards", minerAddress, this.reward + this.fees, 0, "");
+            return new Transaction("Mine Rewards", minerAddress, this.reward + this.fees, 0, "");
         }
 
         public string CreateHash()
         {
-            string hash = string.Empty;
             SHA256 hasher = SHA256.Create();
 
             // Concatenate all the block's properties to hash
-            string input = index.ToString() + timestamp.ToString() + prevHash + nonce.ToString();
+            string input = index.ToString() + timestamp.ToString() + prevHash + nonce.ToString() + reward.ToString() + merkleRoot;
             byte[] hashByte = hasher.ComputeHash(Encoding.UTF8.GetBytes(input));
 
             // Convert Hash from Byte array to String
-            foreach (byte x in hashByte)
-            {
-                hash += string.Format("{0:x2}", x);
-            }
+            string hash = hashByte.Aggregate(string.Empty, (acc, x) => acc + string.Format("{0:x2}", x));
 
             return hash;
         }
@@ -102,23 +101,53 @@ namespace BlockchainAssignment
             return hash;
         }
 
+        public static string getMerkleRoot(List<Transaction> transactions)
+        {
+            List<string> hashes = transactions.Select(t => t.hash).ToList();
+
+            if (hashes.Count == 0)
+                return string.Empty;
+
+            else if (hashes.Count == 1)
+                return HashCode.HashTools.CombineHash(hashes[0], hashes[0]);
+
+            while (hashes.Count != 1)
+            {
+                List<string> merkleLeaves = new List<string>();
+
+                for (int i = 0; i < hashes.Count; i += 2)
+                {
+                    if (i == hashes.Count - 1)
+                        merkleLeaves.Add(HashCode.HashTools.CombineHash(hashes[i], hashes[i]));
+
+                    else
+                        merkleLeaves.Add(HashCode.HashTools.CombineHash(hashes[i], hashes[i + 1]));
+                }
+
+                hashes = merkleLeaves;
+            }
+
+            return hashes[0];
+        }
+
         public override string ToString()
         {
-            string transactionsString = transactions.Count == 0 ? " N/A\n"
-                : transactions.Aggregate("\n", (acc, t) => acc + t.ToString());
+            string transactionsString = transactions.Count == 0 ? string.Empty
+                : transactions.Aggregate(string.Empty, (acc, t) => acc + t.ToString());
 
             return "Index: " + index.ToString() +
                 "\nTimestamp: " + timestamp.ToString() +
                 "\nHash: " + hash.ToString() +
-                "\nPrevious Hash: " + prevHash.ToString() +
+                "\nPrevious Hash: " + (prevHash == string.Empty ? "N/A" : prevHash.ToString()) +
                 "\nNonce: " + nonce.ToString() +
                 "\nDifficulty: " + difficulty.ToString() +
                 "\nReward: " + reward.ToString() +
                 "\nFees: " + fees.ToString() +
-                "\nMiner's address: " + minerAddress.ToString() +
-                "\nTransactions:" + transactionsString +
-                "------------------------------------------------------------------------------------------------" +
-                "------------------------------------------------------------------------------------------------\n";
+                "\nMiner's address: " + (minerAddress == string.Empty ? "N/A" : minerAddress.ToString()) +
+                "\nTransactions: " + transactions.Count +
+                "\n" + transactionsString +
+                "------------------------------------------------------------------------------------------------------------" +
+                "------------------------------------------------------------------------------------------------------------\n";
         }
     }
 

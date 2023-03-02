@@ -39,6 +39,41 @@ namespace BlockchainAssignment
             return pendingTransactions;
         }
 
+        public Transaction createTransaction(string from, string to, double amount, double fees, string priv)
+        {
+            Transaction newTransaction = new Transaction(from, to, amount, fees, priv);
+            transactions.Add(newTransaction);
+
+            return newTransaction;
+        }
+
+        public double getBalance(string address)
+        {
+            double balance = 0;
+
+            foreach (Block b in blocks)
+                foreach (Transaction t in b.transactions)
+                {
+                    if (t.recipientAddress == address)
+                    {
+                        balance += t.amount;
+                    }
+                    if (t.senderAddress == address)
+                    {
+                        balance -= t.amount + t.fees;
+                    }
+                }
+
+            return balance;
+        }
+
+        public bool validateMerkleRoot(Block b)
+        {
+            string reMerkle = Block.getMerkleRoot(b.transactions);
+
+            return reMerkle == b.merkleRoot;
+        }
+
         public override string ToString()
         {
             string output = string.Empty;

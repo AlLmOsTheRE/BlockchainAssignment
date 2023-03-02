@@ -10,20 +10,20 @@ namespace BlockchainAssignment
 {
     internal class Transaction
     {
-        string hash;
+        public string hash;
         string signature;
-        string senderAddress;
-        string recipientAddress;
+        public string senderAddress;
+        public string recipientAddress;
         DateTime timestamp;
-        double amount;
+        public double amount;
         public double fees;
 
-        public Transaction(string from, string to, double amount, double fee, string privateKey)
+        public Transaction(string from, string to, double amount, double fees, string privateKey)
         {
             this.senderAddress = from;
             this.recipientAddress = to;
             this.amount = amount;
-            this.fees = fee;
+            this.fees = fees;
             this.timestamp = DateTime.Now;
             this.hash = CreateHash();
             this.signature = Wallet.Wallet.CreateSignature(from, privateKey, this.hash);
@@ -53,7 +53,7 @@ namespace BlockchainAssignment
             return "---\n  Transaction Hash: " + hash
                 + "\n  Digital signature: " + signature
                 + "\n  Timestamp: " + timestamp.ToString()
-                + "\n  Transferred: " + amount.ToString() + " ඞ"
+                + "\n  Transferred: " + amount.ToString() + " " + BlockchainApp.assignmentCoin
                 + "\n  Fees: " + fees.ToString()
                 + "\n  Sender address: " + senderAddress
                 + "\n  Recipient address: " + recipientAddress
