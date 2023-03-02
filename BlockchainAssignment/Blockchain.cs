@@ -69,7 +69,7 @@ namespace BlockchainAssignment
 
         public bool validateHash(Block b)
         {
-            string reHash = b.CreateHash();
+            string reHash = Block.CreateHash(b.hashKey + b.nonce.ToString());
             return reHash == b.hash;
         }
 

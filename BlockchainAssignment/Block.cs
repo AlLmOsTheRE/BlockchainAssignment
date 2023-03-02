@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -10,9 +12,14 @@ namespace BlockchainAssignment
 {
     internal class Block
     {
+        static int ThreadCount = 4;
+        double miningTime;
+
         int index;
         DateTime timestamp;
-        public string hash;
+        public string hashKey;
+        static string[] hashes = new string[ThreadCount];
+        public string hash = string.Empty;
         public string prevHash;
 
         public List<Transaction> transactions = new List<Transaction>();
@@ -20,7 +27,7 @@ namespace BlockchainAssignment
 
         // Proof of work
         public long nonce = 0;
-        public int difficulty = 4;
+        public int difficulty = 5;
 
         // Rewards and fees
         public double reward = 1.0; // fixed logic
@@ -34,7 +41,8 @@ namespace BlockchainAssignment
             this.timestamp = DateTime.Now;
             this.index = 0;
             this.prevHash = string.Empty;
-            this.hash = Mine();
+            this.hashKey = index.ToString() + timestamp.ToString() + prevHash + reward.ToString() + merkleRoot;
+            Mine();
         }
 
         public Block(string prevHash, int index)
@@ -43,7 +51,8 @@ namespace BlockchainAssignment
             this.index = index + 1;
             this.prevHash = prevHash;
             this.reward = 0;
-            this.hash = Mine();
+            this.hashKey = index.ToString() + timestamp.ToString() + prevHash + reward.ToString() + merkleRoot;
+            Mine();
         }
 
         public Block(Block lastBlock, List<Transaction> transactions, string address = "")
@@ -58,7 +67,8 @@ namespace BlockchainAssignment
 
             merkleRoot = getMerkleRoot(transactions);
 
-            this.hash = Mine();
+            this.hashKey = index.ToString() + timestamp.ToString() + prevHash + reward.ToString() + merkleRoot;
+            Mine();
         }
 
         public Transaction CreateRewardTransaction(List<Transaction> transactions)
@@ -70,12 +80,12 @@ namespace BlockchainAssignment
             return new Transaction("Mine Rewards", minerAddress, this.reward + this.fees, 0, "");
         }
 
-        public string CreateHash()
+        public static string CreateHash(string input)
         {
             SHA256 hasher = SHA256.Create();
 
             // Concatenate all the block's properties to hash
-            string input = index.ToString() + timestamp.ToString() + prevHash + nonce.ToString() + reward.ToString() + merkleRoot;
+            //string input = index.ToString() + timestamp.ToString() + prevHash + nonce.ToString() + reward.ToString() + merkleRoot;
             byte[] hashByte = hasher.ComputeHash(Encoding.UTF8.GetBytes(input));
 
             // Convert Hash from Byte array to String
@@ -84,21 +94,57 @@ namespace BlockchainAssignment
             return hash;
         }
 
-        public string Mine()
+        public void Mine()
         {
-            string hash = CreateHash();
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = tokenSource.Token;
+            List<Task> tasks = new List<Task>();
+
+            // Starts timer to assess performance
+            Stopwatch sw = Stopwatch.StartNew();
+            for (int i = 0; i < ThreadCount; i++)
+            {
+                Task t = Task.Factory.StartNew((index) =>
+                {
+                    try
+                    {
+                        Hasher(hashKey, difficulty, ref nonce, (int)index, cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Console.WriteLine("A task has been cancelled.");
+                    }
+                }, i, cancellationToken);
+                tasks.Add(t);
+            }
+
+            // Gets winning thread and stops timer
+            int winner = Task.WaitAny(tasks.ToArray());
+            sw.Stop();
+            miningTime = Math.Round(sw.Elapsed.TotalSeconds, 2);
+
+            tokenSource.Cancel();
+
+            hash = hashes[winner];
+        }
+
+        public static void Hasher(string hashKey, int difficulty, ref long nonce, int index, CancellationToken cancellationToken)
+        {
+            string hash = CreateHash(hashKey + nonce.ToString());
 
             // Difficulty criteria definition
             string re = new string('0', difficulty); // creates a regex string of N (difficulty) number of 0s
 
             // Re-Hash until criteria is met
-            while (!hash.StartsWith(re))
+            while (hash == string.Empty || !hash.StartsWith(re))
             {
+                if (cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
                 nonce++;
-                hash = CreateHash();
+                hash = CreateHash(hashKey + nonce.ToString());
             }
 
-            return hash;
+            hashes[index] = hash;
         }
 
         public static string getMerkleRoot(List<Transaction> transactions)
@@ -136,6 +182,7 @@ namespace BlockchainAssignment
                 : transactions.Aggregate(string.Empty, (acc, t) => acc + t.ToString());
 
             return "Index: " + index.ToString() +
+                "\nTime to mine: " + miningTime.ToString() + " seconds" +
                 "\nTimestamp: " + timestamp.ToString() +
                 "\nHash: " + hash.ToString() +
                 "\nPrevious Hash: " + (prevHash == string.Empty ? "N/A" : prevHash.ToString()) +
