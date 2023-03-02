@@ -268,7 +268,7 @@
             this.Controls.Add(this.MainInterface);
             this.ForeColor = System.Drawing.Color.Black;
             this.Name = "BlockchainApp";
-            this.Text = "Blockchain App";
+            this.Text = "Blockchain App - ඞ // 29016289";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
