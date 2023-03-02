@@ -32,18 +32,14 @@ namespace BlockchainAssignment
         // Same logic used in Block.cs
         public string CreateHash()
         {
-            string hash = string.Empty;
             SHA256 hasher = SHA256.Create();
 
             // Hash all properties
-            string input = timestamp.ToString() + senderAddress + recipientAddress + amount.ToString() + fees.ToString();
+            string input = timestamp.ToString() + senderAddress + recipientAddress + amount.ToString() + fees.ToString() + signature;
             byte[] hashByte = hasher.ComputeHash(Encoding.UTF8.GetBytes(input));
 
             // Convert Hash from Byte array to String
-            foreach (byte x in hashByte)
-            {
-                hash += string.Format("{0:x2}", x);
-            }
+            string hash = hashByte.Aggregate(string.Empty, (acc, x) => acc + string.Format("{0:x2}", x));
 
             return hash;
         }

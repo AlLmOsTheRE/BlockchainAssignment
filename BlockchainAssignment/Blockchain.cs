@@ -67,10 +67,15 @@ namespace BlockchainAssignment
             return balance;
         }
 
+        public bool validateHash(Block b)
+        {
+            string reHash = b.CreateHash();
+            return reHash == b.hash;
+        }
+
         public bool validateMerkleRoot(Block b)
         {
             string reMerkle = Block.getMerkleRoot(b.transactions);
-
             return reMerkle == b.merkleRoot;
         }
 

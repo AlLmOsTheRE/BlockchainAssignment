@@ -57,9 +57,16 @@ namespace BlockchainAssignment
 
         private void CreateTransaction_Click(object sender, EventArgs e)
         {
-            Transaction transaction = blockchain.createTransaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fees.Text), PrivateKey.Text);
+            try
+            {
+                Transaction transaction = blockchain.createTransaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fees.Text), PrivateKey.Text);
 
-            MainInterface.Text = transaction.ToString();
+                MainInterface.Text = transaction.ToString();
+            }
+            catch (Exception)
+            {
+                MainInterface.Text = "Can't create transaction: invalid/missing values!";
+            }
         }
 
         private void CreateBlock_Click(object sender, EventArgs e)
@@ -90,14 +97,17 @@ namespace BlockchainAssignment
             bool isValid = true;
 
             if (blockchain.blocks.Count == 1)
-                isValid = !blockchain.validateMerkleRoot(blockchain.blocks[0]);
+                isValid = blockchain.validateHash(blockchain.blocks[0]);
 
             else
-                for (int i = 1; i < blockchain.blocks.Count - 1; i++)
+                for (int i = 1; i < blockchain.blocks.Count; i++)
                     // Compare neighbouring hashes for all the blocks in the blockchain and
                     // validate transactions via merkle root
-                    if (blockchain.blocks[i].prevHash != blockchain.blocks[i - 1].hash
-                        || !blockchain.validateMerkleRoot(blockchain.blocks[i]))
+                    if (
+                        blockchain.blocks[i].prevHash != blockchain.blocks[i - 1].hash ||
+                        !blockchain.validateHash(blockchain.blocks[i]) ||
+                        !blockchain.validateMerkleRoot(blockchain.blocks[i])
+                    )
                     {
                         isValid = false;
                         break;
@@ -108,7 +118,53 @@ namespace BlockchainAssignment
 
         private void CheckBalance_Click(object sender, EventArgs e)
         {
-            MainInterface.Text = "Balance: " + blockchain.getBalance(PublicKey.Text).ToString() + " " + assignmentCoin;
+            MainInterface.Text = PublicKey.Text == string.Empty ? "No wallet ID has been provided!" :
+                "Balance: " + blockchain.getBalance(PublicKey.Text).ToString() + " " + assignmentCoin;
+        }
+
+        private void CreateInvalidBlock_Click(object sender, EventArgs e)
+        {
+            List<Transaction> transactions = blockchain.getPendingTransactions();
+            Block lastBlock = blockchain.getLastBlock();
+            Block invalidBlock = new Block(lastBlock, transactions, PublicKey.Text);
+            invalidBlock.prevHash = "InvalidHash_123";
+            blockchain.blocks.Add(invalidBlock);
+
+            MainInterface.Text = blockchain.getLastBlock().ToString();
+        }
+
+        private void InvalidateTransaction_Click(object sender, EventArgs e)
+        {
+            Block lastBlock = blockchain.getLastBlock();
+
+            if (lastBlock.transactions.Count > 0)
+            {
+                Transaction lastTransaction = lastBlock.transactions[lastBlock.transactions.Count - 1];
+                lastTransaction.hash = lastTransaction.CreateHash();
+
+                MainInterface.Text = lastTransaction.ToString();
+            }
+            else
+                MainInterface.Text = "No transactions to tinker with!";
+
+        }
+
+        private void ResetBlockchain_Click(object sender, EventArgs e)
+        {
+            blockchain = new Blockchain();
+            BlockID.Text = string.Empty;
+            PublicKey.Text = string.Empty;
+            PrivateKey.Text = string.Empty;
+            Amount.Text = string.Empty;
+            Fees.Text = string.Empty;
+            ReceiverKey.Text = string.Empty;
+            MainInterface.Text = "New blockchain initialised!";
+        }
+
+        private void InvalidateBlock_Click(object sender, EventArgs e)
+        {
+            Block lastBlock = blockchain.getLastBlock();
+            lastBlock.nonce = 0;
         }
     }
 }

@@ -49,6 +49,12 @@
             this.PrintPending = new System.Windows.Forms.Button();
             this.ValidateChain = new System.Windows.Forms.Button();
             this.CheckBalance = new System.Windows.Forms.Button();
+            this.CreateInvalidBlock = new System.Windows.Forms.Button();
+            this.InvalidateTransaction = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.ResetBlockchain = new System.Windows.Forms.Button();
+            this.InvalidateBlock = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // MainInterface
@@ -57,7 +63,7 @@
             this.MainInterface.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.MainInterface.Location = new System.Drawing.Point(12, 12);
             this.MainInterface.Name = "MainInterface";
-            this.MainInterface.Size = new System.Drawing.Size(673, 314);
+            this.MainInterface.Size = new System.Drawing.Size(706, 314);
             this.MainInterface.TabIndex = 0;
             this.MainInterface.Text = "";
             this.MainInterface.TextChanged += new System.EventHandler(this.MainInterface_TextChanged);
@@ -76,12 +82,12 @@
             // 
             this.BlockID.Location = new System.Drawing.Point(96, 333);
             this.BlockID.Name = "BlockID";
-            this.BlockID.Size = new System.Drawing.Size(34, 20);
+            this.BlockID.Size = new System.Drawing.Size(27, 20);
             this.BlockID.TabIndex = 2;
             // 
             // CreateWallet
             // 
-            this.CreateWallet.Location = new System.Drawing.Point(587, 331);
+            this.CreateWallet.Location = new System.Drawing.Point(620, 331);
             this.CreateWallet.Name = "CreateWallet";
             this.CreateWallet.Size = new System.Drawing.Size(98, 47);
             this.CreateWallet.TabIndex = 3;
@@ -91,22 +97,22 @@
             // 
             // PublicKey
             // 
-            this.PublicKey.Location = new System.Drawing.Point(310, 332);
+            this.PublicKey.Location = new System.Drawing.Point(291, 332);
             this.PublicKey.Name = "PublicKey";
-            this.PublicKey.Size = new System.Drawing.Size(271, 20);
+            this.PublicKey.Size = new System.Drawing.Size(323, 20);
             this.PublicKey.TabIndex = 4;
             // 
             // PrivateKey
             // 
-            this.PrivateKey.Location = new System.Drawing.Point(310, 358);
+            this.PrivateKey.Location = new System.Drawing.Point(291, 358);
             this.PrivateKey.Name = "PrivateKey";
-            this.PrivateKey.Size = new System.Drawing.Size(271, 20);
+            this.PrivateKey.Size = new System.Drawing.Size(323, 20);
             this.PrivateKey.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(233, 335);
+            this.label1.Location = new System.Drawing.Point(224, 335);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 6;
@@ -115,7 +121,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(233, 361);
+            this.label2.Location = new System.Drawing.Point(224, 361);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 7;
@@ -123,9 +129,9 @@
             // 
             // ValidateKeys
             // 
-            this.ValidateKeys.Location = new System.Drawing.Point(587, 384);
+            this.ValidateKeys.Location = new System.Drawing.Point(728, 362);
             this.ValidateKeys.Name = "ValidateKeys";
-            this.ValidateKeys.Size = new System.Drawing.Size(98, 21);
+            this.ValidateKeys.Size = new System.Drawing.Size(97, 46);
             this.ValidateKeys.TabIndex = 8;
             this.ValidateKeys.Text = "Validate Keys";
             this.ValidateKeys.UseVisualStyleBackColor = true;
@@ -133,9 +139,9 @@
             // 
             // CreateTransaction
             // 
-            this.CreateTransaction.Location = new System.Drawing.Point(12, 423);
+            this.CreateTransaction.Location = new System.Drawing.Point(113, 413);
             this.CreateTransaction.Name = "CreateTransaction";
-            this.CreateTransaction.Size = new System.Drawing.Size(98, 46);
+            this.CreateTransaction.Size = new System.Drawing.Size(94, 47);
             this.CreateTransaction.TabIndex = 9;
             this.CreateTransaction.Text = "Create Transaction";
             this.CreateTransaction.UseVisualStyleBackColor = true;
@@ -143,7 +149,7 @@
             // 
             // CreateBlock
             // 
-            this.CreateBlock.Location = new System.Drawing.Point(12, 371);
+            this.CreateBlock.Location = new System.Drawing.Point(12, 359);
             this.CreateBlock.Name = "CreateBlock";
             this.CreateBlock.Size = new System.Drawing.Size(97, 46);
             this.CreateBlock.TabIndex = 10;
@@ -154,7 +160,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(116, 426);
+            this.label3.Location = new System.Drawing.Point(224, 416);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 13);
             this.label3.TabIndex = 11;
@@ -163,7 +169,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(116, 452);
+            this.label4.Location = new System.Drawing.Point(224, 442);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(30, 13);
             this.label4.TabIndex = 12;
@@ -171,22 +177,22 @@
             // 
             // Amount
             // 
-            this.Amount.Location = new System.Drawing.Point(166, 423);
+            this.Amount.Location = new System.Drawing.Point(274, 413);
             this.Amount.Name = "Amount";
-            this.Amount.Size = new System.Drawing.Size(48, 20);
+            this.Amount.Size = new System.Drawing.Size(44, 20);
             this.Amount.TabIndex = 13;
             // 
             // Fees
             // 
-            this.Fees.Location = new System.Drawing.Point(166, 449);
+            this.Fees.Location = new System.Drawing.Point(274, 439);
             this.Fees.Name = "Fees";
-            this.Fees.Size = new System.Drawing.Size(48, 20);
+            this.Fees.Size = new System.Drawing.Size(44, 20);
             this.Fees.TabIndex = 14;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(233, 452);
+            this.label5.Location = new System.Drawing.Point(333, 442);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(71, 13);
             this.label5.TabIndex = 15;
@@ -194,14 +200,14 @@
             // 
             // ReceiverKey
             // 
-            this.ReceiverKey.Location = new System.Drawing.Point(310, 449);
+            this.ReceiverKey.Location = new System.Drawing.Point(410, 439);
             this.ReceiverKey.Name = "ReceiverKey";
-            this.ReceiverKey.Size = new System.Drawing.Size(375, 20);
+            this.ReceiverKey.Size = new System.Drawing.Size(308, 20);
             this.ReceiverKey.TabIndex = 16;
             // 
             // ReadAllBlocks
             // 
-            this.ReadAllBlocks.Location = new System.Drawing.Point(136, 332);
+            this.ReadAllBlocks.Location = new System.Drawing.Point(129, 332);
             this.ReadAllBlocks.Name = "ReadAllBlocks";
             this.ReadAllBlocks.Size = new System.Drawing.Size(78, 21);
             this.ReadAllBlocks.TabIndex = 17;
@@ -211,7 +217,7 @@
             // 
             // PrintPending
             // 
-            this.PrintPending.Location = new System.Drawing.Point(119, 371);
+            this.PrintPending.Location = new System.Drawing.Point(12, 413);
             this.PrintPending.Name = "PrintPending";
             this.PrintPending.Size = new System.Drawing.Size(95, 46);
             this.PrintPending.TabIndex = 18;
@@ -221,9 +227,9 @@
             // 
             // ValidateChain
             // 
-            this.ValidateChain.Location = new System.Drawing.Point(587, 411);
+            this.ValidateChain.Location = new System.Drawing.Point(728, 414);
             this.ValidateChain.Name = "ValidateChain";
-            this.ValidateChain.Size = new System.Drawing.Size(98, 20);
+            this.ValidateChain.Size = new System.Drawing.Size(97, 46);
             this.ValidateChain.TabIndex = 19;
             this.ValidateChain.Text = "Validate Chain";
             this.ValidateChain.UseVisualStyleBackColor = true;
@@ -231,7 +237,7 @@
             // 
             // CheckBalance
             // 
-            this.CheckBalance.Location = new System.Drawing.Point(483, 384);
+            this.CheckBalance.Location = new System.Drawing.Point(620, 384);
             this.CheckBalance.Name = "CheckBalance";
             this.CheckBalance.Size = new System.Drawing.Size(98, 21);
             this.CheckBalance.TabIndex = 20;
@@ -239,12 +245,76 @@
             this.CheckBalance.UseVisualStyleBackColor = true;
             this.CheckBalance.Click += new System.EventHandler(this.CheckBalance_Click);
             // 
+            // CreateInvalidBlock
+            // 
+            this.CreateInvalidBlock.Location = new System.Drawing.Point(724, 140);
+            this.CreateInvalidBlock.Name = "CreateInvalidBlock";
+            this.CreateInvalidBlock.Size = new System.Drawing.Size(97, 46);
+            this.CreateInvalidBlock.TabIndex = 21;
+            this.CreateInvalidBlock.Text = "Generate Invalid Block";
+            this.CreateInvalidBlock.UseVisualStyleBackColor = true;
+            this.CreateInvalidBlock.Click += new System.EventHandler(this.CreateInvalidBlock_Click);
+            // 
+            // InvalidateTransaction
+            // 
+            this.InvalidateTransaction.Location = new System.Drawing.Point(724, 89);
+            this.InvalidateTransaction.Name = "InvalidateTransaction";
+            this.InvalidateTransaction.Size = new System.Drawing.Size(97, 45);
+            this.InvalidateTransaction.TabIndex = 22;
+            this.InvalidateTransaction.Text = "Invalidate Last Transaction";
+            this.InvalidateTransaction.UseVisualStyleBackColor = true;
+            this.InvalidateTransaction.Click += new System.EventHandler(this.InvalidateTransaction_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(725, 332);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 13);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "Validation";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(721, 12);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(105, 13);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Testing / Debugging";
+            // 
+            // ResetBlockchain
+            // 
+            this.ResetBlockchain.Location = new System.Drawing.Point(724, 192);
+            this.ResetBlockchain.Name = "ResetBlockchain";
+            this.ResetBlockchain.Size = new System.Drawing.Size(97, 46);
+            this.ResetBlockchain.TabIndex = 25;
+            this.ResetBlockchain.Text = "Reset Blockchain";
+            this.ResetBlockchain.UseVisualStyleBackColor = true;
+            this.ResetBlockchain.Click += new System.EventHandler(this.ResetBlockchain_Click);
+            // 
+            // InvalidateBlock
+            // 
+            this.InvalidateBlock.Location = new System.Drawing.Point(724, 38);
+            this.InvalidateBlock.Name = "InvalidateBlock";
+            this.InvalidateBlock.Size = new System.Drawing.Size(97, 45);
+            this.InvalidateBlock.TabIndex = 26;
+            this.InvalidateBlock.Text = "Invalidate Last Block";
+            this.InvalidateBlock.UseVisualStyleBackColor = true;
+            this.InvalidateBlock.Click += new System.EventHandler(this.InvalidateBlock_Click);
+            // 
             // BlockchainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(697, 481);
+            this.ClientSize = new System.Drawing.Size(830, 472);
+            this.Controls.Add(this.InvalidateBlock);
+            this.Controls.Add(this.ResetBlockchain);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.InvalidateTransaction);
+            this.Controls.Add(this.CreateInvalidBlock);
             this.Controls.Add(this.CheckBalance);
             this.Controls.Add(this.ValidateChain);
             this.Controls.Add(this.PrintPending);
@@ -298,6 +368,12 @@
         private System.Windows.Forms.Button PrintPending;
         private System.Windows.Forms.Button ValidateChain;
         private System.Windows.Forms.Button CheckBalance;
+        private System.Windows.Forms.Button CreateInvalidBlock;
+        private System.Windows.Forms.Button InvalidateTransaction;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button ResetBlockchain;
+        private System.Windows.Forms.Button InvalidateBlock;
     }
 }
 
