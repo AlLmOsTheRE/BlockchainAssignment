@@ -60,13 +60,35 @@ namespace BlockchainAssignment
         {
             try
             {
-                Transaction transaction = blockchain.createTransaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fees.Text), PrivateKey.Text);
+                if (ReceiverKey.Text == string.Empty)
+                {
+                    MainInterface.Text = "Unable to create transaction: Missing Receiver Key";
+                    return;
+                }
 
-                MainInterface.Text = transaction.ToString();
+                if (!Wallet.Wallet.ValidatePrivateKey(PrivateKey.Text, PublicKey.Text))
+                {
+                    MainInterface.Text = "Unable to create transaction: Invalid/Missing Wallet";
+                    return;
+                }
+
+                double transactionCost = (double.Parse(Amount.Text) + double.Parse(Fees.Text));
+                double totalPendingTransactionsCost = blockchain.transactions.Aggregate(0.0, (acc, t) => acc + t.amount + t.fees);
+                double walletBalance = blockchain.getBalance(PublicKey.Text);
+
+                if ((transactionCost + totalPendingTransactionsCost) > walletBalance)
+                {
+                    MainInterface.Text = $"Unable to create transaction: Insufficient funds (Missing {(transactionCost + totalPendingTransactionsCost) - walletBalance} {assignmentCoin})";
+                }
+                else
+                {
+                    Transaction transaction = blockchain.createTransaction(PublicKey.Text, ReceiverKey.Text, double.Parse(Amount.Text), double.Parse(Fees.Text), PrivateKey.Text);
+                    MainInterface.Text = transaction.ToString();
+                }
             }
             catch (Exception)
             {
-                MainInterface.Text = "Can't create transaction: invalid/missing values!";
+                MainInterface.Text = "Can't create transaction: Invalid/Missing values";
             }
         }
 
@@ -107,7 +129,7 @@ namespace BlockchainAssignment
 
         private void PrintPending_Click(object sender, EventArgs e)
         {
-            string pendingString = blockchain.transactions.Count == 0 ? "No pending transactions!"
+            string pendingString = blockchain.transactions.Count == 0 ? "No pending transactions"
                 : blockchain.transactions.Aggregate("Pending transactions:\n", (acc, t) => acc + t.ToString());
 
             MainInterface.Text = pendingString;
@@ -140,7 +162,7 @@ namespace BlockchainAssignment
 
         private void CheckBalance_Click(object sender, EventArgs e)
         {
-            MainInterface.Text = PublicKey.Text == string.Empty ? "No wallet ID has been provided!" :
+            MainInterface.Text = PublicKey.Text == string.Empty ? "No Wallet ID has been provided" :
                 "Balance: " + blockchain.getBalance(PublicKey.Text).ToString() + " " + assignmentCoin;
         }
 
@@ -182,7 +204,7 @@ namespace BlockchainAssignment
             difficulty = 2;
             Block.difficulty = 2;
             blockchain = new Blockchain();
-            MainInterface.Text = "New blockchain initialised!";
+            MainInterface.Text = "<New blockchain initialised>";
         }
 
         private void InvalidateBlock_Click(object sender, EventArgs e)
