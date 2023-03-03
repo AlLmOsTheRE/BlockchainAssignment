@@ -38,7 +38,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ValidateKeys = new System.Windows.Forms.Button();
             this.CreateTransaction = new System.Windows.Forms.Button();
-            this.CreateBlock = new System.Windows.Forms.Button();
+            this.CreateBlockGreedy = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.Amount = new System.Windows.Forms.TextBox();
@@ -55,6 +55,11 @@
             this.label7 = new System.Windows.Forms.Label();
             this.ResetBlockchain = new System.Windows.Forms.Button();
             this.InvalidateBlock = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.CreateBlockRandom = new System.Windows.Forms.Button();
+            this.CreateBlockAltruistic = new System.Windows.Forms.Button();
+            this.CreateBlockPreference = new System.Windows.Forms.Button();
+            this.AddressPreference = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // MainInterface
@@ -129,7 +134,7 @@
             // 
             // ValidateKeys
             // 
-            this.ValidateKeys.Location = new System.Drawing.Point(728, 362);
+            this.ValidateKeys.Location = new System.Drawing.Point(727, 404);
             this.ValidateKeys.Name = "ValidateKeys";
             this.ValidateKeys.Size = new System.Drawing.Size(97, 46);
             this.ValidateKeys.TabIndex = 8;
@@ -139,28 +144,28 @@
             // 
             // CreateTransaction
             // 
-            this.CreateTransaction.Location = new System.Drawing.Point(113, 413);
+            this.CreateTransaction.Location = new System.Drawing.Point(113, 453);
             this.CreateTransaction.Name = "CreateTransaction";
-            this.CreateTransaction.Size = new System.Drawing.Size(94, 47);
+            this.CreateTransaction.Size = new System.Drawing.Size(94, 48);
             this.CreateTransaction.TabIndex = 9;
             this.CreateTransaction.Text = "Create Transaction";
             this.CreateTransaction.UseVisualStyleBackColor = true;
             this.CreateTransaction.Click += new System.EventHandler(this.CreateTransaction_Click);
             // 
-            // CreateBlock
+            // CreateBlockGreedy
             // 
-            this.CreateBlock.Location = new System.Drawing.Point(12, 359);
-            this.CreateBlock.Name = "CreateBlock";
-            this.CreateBlock.Size = new System.Drawing.Size(97, 46);
-            this.CreateBlock.TabIndex = 10;
-            this.CreateBlock.Text = "Generate New Block";
-            this.CreateBlock.UseVisualStyleBackColor = true;
-            this.CreateBlock.Click += new System.EventHandler(this.CreateBlock_Click);
+            this.CreateBlockGreedy.Location = new System.Drawing.Point(12, 400);
+            this.CreateBlockGreedy.Name = "CreateBlockGreedy";
+            this.CreateBlockGreedy.Size = new System.Drawing.Size(78, 36);
+            this.CreateBlockGreedy.TabIndex = 10;
+            this.CreateBlockGreedy.Text = "Greedy";
+            this.CreateBlockGreedy.UseVisualStyleBackColor = true;
+            this.CreateBlockGreedy.Click += new System.EventHandler(this.CreateBlockGreedy_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(224, 416);
+            this.label3.Location = new System.Drawing.Point(224, 457);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 13);
             this.label3.TabIndex = 11;
@@ -169,7 +174,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(224, 442);
+            this.label4.Location = new System.Drawing.Point(224, 483);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(30, 13);
             this.label4.TabIndex = 12;
@@ -177,14 +182,14 @@
             // 
             // Amount
             // 
-            this.Amount.Location = new System.Drawing.Point(274, 413);
+            this.Amount.Location = new System.Drawing.Point(274, 454);
             this.Amount.Name = "Amount";
             this.Amount.Size = new System.Drawing.Size(44, 20);
             this.Amount.TabIndex = 13;
             // 
             // Fees
             // 
-            this.Fees.Location = new System.Drawing.Point(274, 439);
+            this.Fees.Location = new System.Drawing.Point(274, 480);
             this.Fees.Name = "Fees";
             this.Fees.Size = new System.Drawing.Size(44, 20);
             this.Fees.TabIndex = 14;
@@ -192,7 +197,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(333, 442);
+            this.label5.Location = new System.Drawing.Point(333, 483);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(71, 13);
             this.label5.TabIndex = 15;
@@ -200,7 +205,7 @@
             // 
             // ReceiverKey
             // 
-            this.ReceiverKey.Location = new System.Drawing.Point(410, 439);
+            this.ReceiverKey.Location = new System.Drawing.Point(410, 480);
             this.ReceiverKey.Name = "ReceiverKey";
             this.ReceiverKey.Size = new System.Drawing.Size(308, 20);
             this.ReceiverKey.TabIndex = 16;
@@ -217,9 +222,9 @@
             // 
             // PrintPending
             // 
-            this.PrintPending.Location = new System.Drawing.Point(12, 413);
+            this.PrintPending.Location = new System.Drawing.Point(12, 454);
             this.PrintPending.Name = "PrintPending";
-            this.PrintPending.Size = new System.Drawing.Size(95, 46);
+            this.PrintPending.Size = new System.Drawing.Size(95, 47);
             this.PrintPending.TabIndex = 18;
             this.PrintPending.Text = "Print Pending Transactions";
             this.PrintPending.UseVisualStyleBackColor = true;
@@ -227,7 +232,7 @@
             // 
             // ValidateChain
             // 
-            this.ValidateChain.Location = new System.Drawing.Point(728, 414);
+            this.ValidateChain.Location = new System.Drawing.Point(727, 456);
             this.ValidateChain.Name = "ValidateChain";
             this.ValidateChain.Size = new System.Drawing.Size(97, 46);
             this.ValidateChain.TabIndex = 19;
@@ -268,7 +273,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(725, 332);
+            this.label6.Location = new System.Drawing.Point(724, 374);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 23;
@@ -303,12 +308,63 @@
             this.InvalidateBlock.UseVisualStyleBackColor = true;
             this.InvalidateBlock.Click += new System.EventHandler(this.InvalidateBlock_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(13, 383);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(106, 13);
+            this.label8.TabIndex = 27;
+            this.label8.Text = "Generate New Block";
+            // 
+            // CreateBlockRandom
+            // 
+            this.CreateBlockRandom.Location = new System.Drawing.Point(179, 400);
+            this.CreateBlockRandom.Name = "CreateBlockRandom";
+            this.CreateBlockRandom.Size = new System.Drawing.Size(78, 36);
+            this.CreateBlockRandom.TabIndex = 28;
+            this.CreateBlockRandom.Text = "Random";
+            this.CreateBlockRandom.UseVisualStyleBackColor = true;
+            this.CreateBlockRandom.Click += new System.EventHandler(this.CreateBlockRandom_Click);
+            // 
+            // CreateBlockAltruistic
+            // 
+            this.CreateBlockAltruistic.Location = new System.Drawing.Point(96, 400);
+            this.CreateBlockAltruistic.Name = "CreateBlockAltruistic";
+            this.CreateBlockAltruistic.Size = new System.Drawing.Size(77, 36);
+            this.CreateBlockAltruistic.TabIndex = 29;
+            this.CreateBlockAltruistic.Text = "Altruistic";
+            this.CreateBlockAltruistic.UseVisualStyleBackColor = true;
+            this.CreateBlockAltruistic.Click += new System.EventHandler(this.CreateBlockAltruistic_Click);
+            // 
+            // CreateBlockPreference
+            // 
+            this.CreateBlockPreference.Location = new System.Drawing.Point(275, 401);
+            this.CreateBlockPreference.Name = "CreateBlockPreference";
+            this.CreateBlockPreference.Size = new System.Drawing.Size(77, 36);
+            this.CreateBlockPreference.TabIndex = 30;
+            this.CreateBlockPreference.Text = "Address preference";
+            this.CreateBlockPreference.UseVisualStyleBackColor = true;
+            this.CreateBlockPreference.Click += new System.EventHandler(this.CreateBlockPreference_Click);
+            // 
+            // AddressPreference
+            // 
+            this.AddressPreference.Location = new System.Drawing.Point(358, 417);
+            this.AddressPreference.Name = "AddressPreference";
+            this.AddressPreference.Size = new System.Drawing.Size(360, 20);
+            this.AddressPreference.TabIndex = 31;
+            // 
             // BlockchainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(830, 472);
+            this.ClientSize = new System.Drawing.Size(830, 513);
+            this.Controls.Add(this.AddressPreference);
+            this.Controls.Add(this.CreateBlockPreference);
+            this.Controls.Add(this.CreateBlockAltruistic);
+            this.Controls.Add(this.CreateBlockRandom);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.InvalidateBlock);
             this.Controls.Add(this.ResetBlockchain);
             this.Controls.Add(this.label7);
@@ -325,7 +381,7 @@
             this.Controls.Add(this.Amount);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.CreateBlock);
+            this.Controls.Add(this.CreateBlockGreedy);
             this.Controls.Add(this.CreateTransaction);
             this.Controls.Add(this.ValidateKeys);
             this.Controls.Add(this.label2);
@@ -357,7 +413,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button ValidateKeys;
         private System.Windows.Forms.Button CreateTransaction;
-        private System.Windows.Forms.Button CreateBlock;
+        private System.Windows.Forms.Button CreateBlockGreedy;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox Amount;
@@ -374,6 +430,11 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button ResetBlockchain;
         private System.Windows.Forms.Button InvalidateBlock;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button CreateBlockRandom;
+        private System.Windows.Forms.Button CreateBlockAltruistic;
+        private System.Windows.Forms.Button CreateBlockPreference;
+        private System.Windows.Forms.TextBox AddressPreference;
     }
 }
 

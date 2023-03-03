@@ -92,9 +92,9 @@ namespace BlockchainAssignment
             }
         }
 
-        private void CreateBlock_Click(object sender, EventArgs e)
+        private void createBlock(string strategy, string recipientAddress = "")
         {
-            List<Transaction> transactions = blockchain.getPendingTransactions();
+            List<Transaction> transactions = blockchain.getPendingTransactions(strategy, recipientAddress);
             // Assign the blockchain's difficulty to the block
             Block.difficulty = difficulty;
             Block newBlock = new Block(blockchain.getLastBlock(), transactions, PublicKey.Text);
@@ -120,6 +120,30 @@ namespace BlockchainAssignment
             }
 
             MainInterface.Text = blockchain.getLastBlock().ToString();
+        }
+        private void CreateBlockGreedy_Click(object sender, EventArgs e)
+        {
+            createBlock("Greedy");
+        }
+
+        private void CreateBlockAltruistic_Click(object sender, EventArgs e)
+        {
+            createBlock("Altruistic");
+        }
+
+        private void CreateBlockRandom_Click(object sender, EventArgs e)
+        {
+            createBlock("Random");
+        }
+
+        private void CreateBlockPreference_Click(object sender, EventArgs e)
+        {
+            if (AddressPreference.Text == string.Empty)
+            {
+                MainInterface.Text = "Unable to create Block with preferred Recipient Address: Missing value";
+                return;
+            }
+            createBlock("Preference", AddressPreference.Text);
         }
 
         private void ReadAllBlocks_Click(object sender, EventArgs e)
@@ -168,7 +192,7 @@ namespace BlockchainAssignment
 
         private void CreateInvalidBlock_Click(object sender, EventArgs e)
         {
-            List<Transaction> transactions = blockchain.getPendingTransactions();
+            List<Transaction> transactions = blockchain.getPendingTransactions("Altruistic");
             Block lastBlock = blockchain.getLastBlock();
             Block invalidBlock = new Block(lastBlock, transactions, PublicKey.Text);
             invalidBlock.prevHash = "InvalidHash_123";
@@ -201,6 +225,7 @@ namespace BlockchainAssignment
             Amount.Text = string.Empty;
             Fees.Text = string.Empty;
             ReceiverKey.Text = string.Empty;
+            AddressPreference.Text = string.Empty;
             difficulty = 2;
             Block.difficulty = 2;
             blockchain = new Blockchain();

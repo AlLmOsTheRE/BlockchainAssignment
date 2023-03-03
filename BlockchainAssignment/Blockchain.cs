@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,12 +30,51 @@ namespace BlockchainAssignment
             return blocks[blocks.Count - 1];
         }
 
-        public List<Transaction> getPendingTransactions()
+        public List<Transaction> getPendingTransactions(string strategy, string recipientAddress = "")
         {
-            int n = Math.Min(transactionsPerBlock, transactions.Count);
-            List<Transaction> pendingTransactions = transactions.GetRange(0, n);
+            List<Transaction> pendingTransactions = new List<Transaction>();
 
-            transactions.RemoveRange(0, n);
+            if (transactions.Count == 0)
+                return pendingTransactions;
+
+            int n = Math.Min(transactionsPerBlock, transactions.Count);
+
+            switch (strategy)
+            {
+                case "Greedy":
+                    for (int i = 0; i < n; i++)
+                    {
+                        Transaction expensiveTransaction = transactions.Find(t => (t.amount + t.fees) == transactions.Max(t2 => (t2.amount + t2.fees)));
+                        pendingTransactions.Add(expensiveTransaction);
+                        transactions.Remove(expensiveTransaction);
+                    }
+                    break;
+                case "Altruistic":
+                    pendingTransactions = transactions.GetRange(0, n);
+                    transactions.RemoveRange(0, n);
+                    break;
+                case "Random":
+                    Random rng = new Random();
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        int randomIndex = rng.Next(0, transactions.Count);
+                        pendingTransactions.Add(transactions[randomIndex]);
+                        transactions.RemoveAt(randomIndex);
+                    }
+                    break;
+                case "Preference":
+                    for (int i = 0; i < n; i++)
+                    {
+                        Transaction preferredTransaction = transactions.Find(t => t.recipientAddress == recipientAddress);
+                        if (preferredTransaction == null)
+                            preferredTransaction = transactions[0];
+
+                        pendingTransactions.Add(preferredTransaction);
+                        transactions.Remove(preferredTransaction);
+                    }
+                    break;
+            }
 
             return pendingTransactions;
         }
