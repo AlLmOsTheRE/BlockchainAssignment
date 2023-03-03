@@ -77,7 +77,7 @@
             // 
             this.PrintBlock.Location = new System.Drawing.Point(12, 332);
             this.PrintBlock.Name = "PrintBlock";
-            this.PrintBlock.Size = new System.Drawing.Size(78, 21);
+            this.PrintBlock.Size = new System.Drawing.Size(69, 21);
             this.PrintBlock.TabIndex = 1;
             this.PrintBlock.Text = "Print Block";
             this.PrintBlock.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             // 
             // BlockID
             // 
-            this.BlockID.Location = new System.Drawing.Point(96, 333);
+            this.BlockID.Location = new System.Drawing.Point(87, 333);
             this.BlockID.Name = "BlockID";
             this.BlockID.Size = new System.Drawing.Size(27, 20);
             this.BlockID.TabIndex = 2;
@@ -102,22 +102,22 @@
             // 
             // PublicKey
             // 
-            this.PublicKey.Location = new System.Drawing.Point(291, 332);
+            this.PublicKey.Location = new System.Drawing.Point(277, 332);
             this.PublicKey.Name = "PublicKey";
-            this.PublicKey.Size = new System.Drawing.Size(323, 20);
+            this.PublicKey.Size = new System.Drawing.Size(337, 20);
             this.PublicKey.TabIndex = 4;
             // 
             // PrivateKey
             // 
-            this.PrivateKey.Location = new System.Drawing.Point(291, 358);
+            this.PrivateKey.Location = new System.Drawing.Point(277, 358);
             this.PrivateKey.Name = "PrivateKey";
-            this.PrivateKey.Size = new System.Drawing.Size(323, 20);
+            this.PrivateKey.Size = new System.Drawing.Size(337, 20);
             this.PrivateKey.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(224, 335);
+            this.label1.Location = new System.Drawing.Point(213, 335);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 6;
@@ -126,7 +126,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(224, 361);
+            this.label2.Location = new System.Drawing.Point(213, 361);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 7;
@@ -144,9 +144,9 @@
             // 
             // CreateTransaction
             // 
-            this.CreateTransaction.Location = new System.Drawing.Point(113, 453);
+            this.CreateTransaction.Location = new System.Drawing.Point(113, 454);
             this.CreateTransaction.Name = "CreateTransaction";
-            this.CreateTransaction.Size = new System.Drawing.Size(94, 48);
+            this.CreateTransaction.Size = new System.Drawing.Size(94, 47);
             this.CreateTransaction.TabIndex = 9;
             this.CreateTransaction.Text = "Create Transaction";
             this.CreateTransaction.UseVisualStyleBackColor = true;
@@ -165,7 +165,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(224, 457);
+            this.label3.Location = new System.Drawing.Point(227, 457);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 13);
             this.label3.TabIndex = 11;
@@ -174,7 +174,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(224, 483);
+            this.label4.Location = new System.Drawing.Point(227, 483);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(30, 13);
             this.label4.TabIndex = 12;
@@ -182,14 +182,14 @@
             // 
             // Amount
             // 
-            this.Amount.Location = new System.Drawing.Point(274, 454);
+            this.Amount.Location = new System.Drawing.Point(277, 454);
             this.Amount.Name = "Amount";
             this.Amount.Size = new System.Drawing.Size(44, 20);
             this.Amount.TabIndex = 13;
             // 
             // Fees
             // 
-            this.Fees.Location = new System.Drawing.Point(274, 480);
+            this.Fees.Location = new System.Drawing.Point(277, 480);
             this.Fees.Name = "Fees";
             this.Fees.Size = new System.Drawing.Size(44, 20);
             this.Fees.TabIndex = 14;
@@ -212,9 +212,9 @@
             // 
             // ReadAllBlocks
             // 
-            this.ReadAllBlocks.Location = new System.Drawing.Point(129, 332);
+            this.ReadAllBlocks.Location = new System.Drawing.Point(120, 333);
             this.ReadAllBlocks.Name = "ReadAllBlocks";
-            this.ReadAllBlocks.Size = new System.Drawing.Size(78, 21);
+            this.ReadAllBlocks.Size = new System.Drawing.Size(69, 21);
             this.ReadAllBlocks.TabIndex = 17;
             this.ReadAllBlocks.Text = "Read All";
             this.ReadAllBlocks.UseVisualStyleBackColor = true;
@@ -273,7 +273,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(724, 374);
+            this.label6.Location = new System.Drawing.Point(724, 383);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 23;
@@ -339,9 +339,9 @@
             // 
             // CreateBlockPreference
             // 
-            this.CreateBlockPreference.Location = new System.Drawing.Point(275, 401);
+            this.CreateBlockPreference.Location = new System.Drawing.Point(275, 400);
             this.CreateBlockPreference.Name = "CreateBlockPreference";
-            this.CreateBlockPreference.Size = new System.Drawing.Size(77, 36);
+            this.CreateBlockPreference.Size = new System.Drawing.Size(77, 37);
             this.CreateBlockPreference.TabIndex = 30;
             this.CreateBlockPreference.Text = "Address preference";
             this.CreateBlockPreference.UseVisualStyleBackColor = true;
