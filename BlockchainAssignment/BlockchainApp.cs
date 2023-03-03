@@ -15,6 +15,7 @@ namespace BlockchainAssignment
     {
         static public char assignmentCoin = 'ඞ';
         Blockchain blockchain;
+        int difficulty = 2;
 
         public BlockchainApp()
         {
@@ -72,8 +73,29 @@ namespace BlockchainAssignment
         private void CreateBlock_Click(object sender, EventArgs e)
         {
             List<Transaction> transactions = blockchain.getPendingTransactions();
+            // Assign the blockchain's difficulty to the block
+            Block.difficulty = difficulty;
             Block newBlock = new Block(blockchain.getLastBlock(), transactions, PublicKey.Text);
             blockchain.blocks.Add(newBlock);
+
+            int n = 5; // After how many blocks should the difficulty be updated
+
+            // Every N blocks - not counting the Genesis block
+            if ((blockchain.blocks.Count - 1) % n == 0)
+            {
+                // Checks the average mining time of the last N blocks
+                double timeTaken = blockchain.blocks
+                    .Skip(Math.Max(0, blockchain.blocks.Count - n))
+                    .Aggregate(0.0, (acc, b) => acc + b.miningTime) / n;
+                // calculates the ratio between the expected and the actual times taken
+                double expectedVsActual = ((n * 2) / timeTaken); // the expected time is N x 2 seconds
+
+                // if the actual time is considerably lower than the expected one, raise the difficulty
+                if (expectedVsActual > 1.25)
+                    difficulty++;
+                else if (expectedVsActual < .75)
+                    difficulty--;
+            }
 
             MainInterface.Text = blockchain.getLastBlock().ToString();
         }
@@ -151,13 +173,15 @@ namespace BlockchainAssignment
 
         private void ResetBlockchain_Click(object sender, EventArgs e)
         {
-            blockchain = new Blockchain();
             BlockID.Text = string.Empty;
             PublicKey.Text = string.Empty;
             PrivateKey.Text = string.Empty;
             Amount.Text = string.Empty;
             Fees.Text = string.Empty;
             ReceiverKey.Text = string.Empty;
+            difficulty = 2;
+            Block.difficulty = 2;
+            blockchain = new Blockchain();
             MainInterface.Text = "New blockchain initialised!";
         }
 

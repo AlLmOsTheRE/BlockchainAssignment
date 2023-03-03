@@ -13,7 +13,7 @@ namespace BlockchainAssignment
     internal class Block
     {
         static int ThreadCount = 4;
-        double miningTime;
+        public double miningTime;
 
         int index;
         DateTime timestamp;
@@ -26,8 +26,9 @@ namespace BlockchainAssignment
         public string merkleRoot;
 
         // Proof of work
+        static long[] nonces = new long[ThreadCount];
         public long nonce = 0;
-        public int difficulty = 5;
+        static public int difficulty = 4; // The difficulty's default value is 4 but may be overriden by the blockchain
 
         // Rewards and fees
         public double reward = 1.0; // fixed logic
@@ -108,7 +109,7 @@ namespace BlockchainAssignment
                 {
                     try
                     {
-                        Hasher(hashKey, difficulty, ref nonce, (int)index, cancellationToken);
+                        Hasher(hashKey, difficulty, (int)index, cancellationToken);
                     }
                     catch (OperationCanceledException)
                     {
@@ -126,11 +127,15 @@ namespace BlockchainAssignment
             tokenSource.Cancel();
 
             hash = hashes[winner];
+            nonce = nonces[winner];
+
+            // reset the list of nonces
+            nonces = new long[ThreadCount];
         }
 
-        public static void Hasher(string hashKey, int difficulty, ref long nonce, int index, CancellationToken cancellationToken)
+        public static void Hasher(string hashKey, int difficulty, int index, CancellationToken cancellationToken)
         {
-            string hash = CreateHash(hashKey + nonce.ToString());
+            string hash = CreateHash(hashKey + nonces[index].ToString());
 
             // Difficulty criteria definition
             string re = new string('0', difficulty); // creates a regex string of N (difficulty) number of 0s
@@ -140,8 +145,8 @@ namespace BlockchainAssignment
             {
                 if (cancellationToken.IsCancellationRequested)
                     cancellationToken.ThrowIfCancellationRequested();
-                nonce++;
-                hash = CreateHash(hashKey + nonce.ToString());
+                nonces[index]++;
+                hash = CreateHash(hashKey + nonces[index].ToString());
             }
 
             hashes[index] = hash;
