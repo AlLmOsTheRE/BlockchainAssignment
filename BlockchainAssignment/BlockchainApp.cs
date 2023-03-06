@@ -121,6 +121,7 @@ namespace BlockchainAssignment
 
             MainInterface.Text = blockchain.getLastBlock().ToString();
         }
+
         private void CreateBlockGreedy_Click(object sender, EventArgs e)
         {
             createBlock("Greedy");

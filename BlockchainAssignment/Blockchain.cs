@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BlockchainAssignment
 {
@@ -44,18 +45,22 @@ namespace BlockchainAssignment
                 case "Greedy":
                     for (int i = 0; i < n; i++)
                     {
-                        Transaction expensiveTransaction = transactions.Find(t => (t.amount + t.fees) == transactions.Max(t2 => (t2.amount + t2.fees)));
+                        // find the transaction with the highest fees
+                        Transaction expensiveTransaction = transactions.Find(t => t.fees == transactions.Max(t2 => t2.fees));
+                        // add it to the queue to be added to the block's transactions
                         pendingTransactions.Add(expensiveTransaction);
+                        // then remove it from pending list
                         transactions.Remove(expensiveTransaction);
                     }
                     break;
                 case "Altruistic":
+                    // get the transactions which have been in the queue for the longest
                     pendingTransactions = transactions.GetRange(0, n);
                     transactions.RemoveRange(0, n);
                     break;
                 case "Random":
+                    // pick transactions at random
                     Random rng = new Random();
-
                     for (int i = 0; i < n; i++)
                     {
                         int randomIndex = rng.Next(0, transactions.Count);
@@ -64,6 +69,7 @@ namespace BlockchainAssignment
                     }
                     break;
                 case "Preference":
+                    // pick the transactions from a specified address first, then all the ones that have been waiting the longest
                     for (int i = 0; i < n; i++)
                     {
                         Transaction preferredTransaction = transactions.Find(t => t.recipientAddress == recipientAddress);
@@ -95,13 +101,10 @@ namespace BlockchainAssignment
                 foreach (Transaction t in b.transactions)
                 {
                     if (t.recipientAddress == address)
-                    {
                         balance += t.amount;
-                    }
+
                     if (t.senderAddress == address)
-                    {
                         balance -= t.amount + t.fees;
-                    }
                 }
 
             return balance;
@@ -122,9 +125,7 @@ namespace BlockchainAssignment
         public override string ToString()
         {
             string output = string.Empty;
-
             blocks.ForEach(b => output += b.ToString() + "\n");
-
             return output;
         }
     }
